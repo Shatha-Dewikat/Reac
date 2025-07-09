@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap');
+
+.formC{
+    margin-top: 25px;
+
+}
+.m{
+    margin-left: 45%;
+    padding: 10%;
+}
+p{
+    margin-left: 30%;
+}
+h1{
+    font-size: 20px;
+}
+.navLink {
+  color: #ffffff; /* لون بني */
+  text-decoration: none;
+  margin-right: 25px;
+  position: relative;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -3px;
+  background-color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+
+.socialBtn {
+  flex: 1;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  background-color: transparent;
+  color: white;
+  transition: all 0.3s ease;
+  padding: 10px;
+}
+
+.socialBtn.facebook:hover {
+  background-color: #3b5998; /* لون فيسبوك */
+  color: white;
+  border-color: #3b5998;
+}
+
+.socialBtn.google:hover {
+  background-color: #db4437; /* لون جوجل */
+  color: white;
+  border-color: #db4437;
+}
+
+
+/* Register.module.css */
+.myText {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 40px;
+    color: white;
+    margin-top: 30%;
+    margin-right: 20%;
+}
+
+
+.pageBackground {
+  min-height: 100vh;
+  margin: 0;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
