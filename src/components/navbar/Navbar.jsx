@@ -18,40 +18,43 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
 const pages = ['Home', 'Products', 'About Us', 'Contact Us'];
-const settings = [ 'Logout'];
+const settings = ['Profile', 'Logout'];
 
-export default function ResponsiveAppBar() {
+export default function ResponsiveAppBar({ isUserMenuOpen, setIsUserMenuOpen }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-const navigate = useNavigate();
+  const navigate = useNavigate();
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
   };
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+    setIsUserMenuOpen(true);
+  };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+    setIsUserMenuOpen(false);
   };
-const token = localStorage.getItem("userToken") || sessionStorage.getItem("userToken");
-const email = localStorage.getItem("userEmail") || sessionStorage.getItem("userEmail");
-const isLoggedIn = Boolean(token);
+
+  const token = localStorage.getItem("userToken") || sessionStorage.getItem("userToken");
+  const email = localStorage.getItem("userEmail") || sessionStorage.getItem("userEmail");
+  const isLoggedIn = Boolean(token);
 
   const userInitial = email ? email.charAt(0).toUpperCase() : "";
 
- const handleLogout = () => {
-  localStorage.removeItem("userToken");
-  localStorage.removeItem("userEmail");
-  sessionStorage.removeItem("userToken");
-  sessionStorage.removeItem("userEmail");
-  navigate('/');
-  // لو تريد إعادة تحميل الصفحة:
-   window.location.reload();
-};
-
+  const handleLogout = () => {
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("userEmail");
+    sessionStorage.removeItem("userToken");
+    sessionStorage.removeItem("userEmail");
+    navigate('/');
+    window.location.reload();
+  };
 
   return (
     <AppBar position="static" sx={{ backgroundColor: '#2b0a3d' }}>
@@ -137,6 +140,8 @@ const isLoggedIn = Boolean(token);
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
+                component={Link}
+                to={`/${page}`}
                 sx={{
                   my: 2,
                   color: 'white',
@@ -184,11 +189,22 @@ const isLoggedIn = Boolean(token);
                 >
                   {settings.map((setting) => (
                     <MenuItem
-                      key={setting}
-                      onClick={setting === "Logout" ? handleLogout : handleCloseUserMenu}
-                    >
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
+  key={setting}
+  onClick={() => {
+    if (setting === "Logout") {
+      handleLogout();
+    } else if (setting === "Profile") {
+      // هنا بتروح على صفحة البروفايل
+      navigate("/profile");  // لازم تستورد useNavigate من react-router-dom
+      handleCloseUserMenu();
+    } else {
+      handleCloseUserMenu();
+    }
+  }}
+>
+  <Typography textAlign="center">{setting}</Typography>
+</MenuItem>
+
                   ))}
                 </Menu>
               </>

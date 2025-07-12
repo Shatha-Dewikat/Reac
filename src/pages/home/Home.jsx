@@ -1,15 +1,19 @@
 import { Box, Container, Typography, IconButton } from "@mui/material";
-import { useState, useEffect, Suspense, lazy } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLeaf, faArrowUp, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Loading from "../../components/loading/Loading";
-import { useNavigate } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import OffersBanner from "../../components/offersBanner/OffersBanner";
+import HeroSlider from "../../components/heroSlider/HeroSlider";
 
 const Category = lazy(() => import("../../components/category/Category"));
 const Products = lazy(() => import("../../components/products/Products"));
 
 export default function Home() {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const { isUserMenuOpen } = useOutletContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,11 +28,15 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleCartClick = () => {
-    
-      navigate("/carts");
-    
-  };
+ const handleCartClick = () => {
+  const token = sessionStorage.getItem("userToken");
+  if (!token) {
+    navigate("/login");
+  } else {
+    navigate("/carts");
+  }
+};
+
 
   return (
     <Box
@@ -39,6 +47,7 @@ export default function Home() {
         position: "relative",
       }}
     >
+      
       <Container maxWidth="xl">
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start", mr: 2, gap: 2 }}>
           <Box>
@@ -50,6 +59,9 @@ export default function Home() {
           <Typography variant="subtitle1" sx={{ mt: 1, color: "white", fontSize: "18px", fontWeight: 400 }}>
             The best way to buy the products you love.
           </Typography>
+
+          <HeroSlider />
+
         </Box>
 
         <Box sx={{ mt: 6, display: "flex", justifyContent: "center" }}>
@@ -77,36 +89,34 @@ export default function Home() {
         </Box>
       </Container>
 
-      {/* أيقونة السلة مع شرط التحقق من تسجيل الدخول */}
-      <Box
-        onClick={handleCartClick}
-        sx={{
-          position: "fixed",
-          top: 130,
-          right: 60,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          cursor: "pointer",
-          color: "#ffb3d1",
-          transition: "all 0.3s ease",
-          "&:hover": {
-            color: "#ff85bc",
-            transform: "scale(1.6) rotate(15deg)",
-          },
-          zIndex: 1500,
-          userSelect: "none",
-        }}
-        title="Cart"
-      >
-        <FontAwesomeIcon icon={faCartShopping} style={{ fontSize: "50px" }} />
-        <Typography
-          variant="caption"
-          sx={{ mt: 0.5, fontWeight: "bold", color: "inherit" }}
-        >
-          My Cart
-        </Typography>
-      </Box>
+      {/* أيقونة السلة مع تحريك تدريجي حسب حالة القائمة */}
+    <Box
+  onClick={handleCartClick}
+  sx={{
+    position: "fixed",
+    top: isUserMenuOpen ? 160 : 100,
+    right: 60,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    cursor: "pointer",
+    color: "#ffb3d1",
+    transition: "top 0.3s ease, color 0.4s ease, transform 0.4s ease",
+    "&:hover": {
+      color: "#ff99c7",
+      transform: "scale(1.3) rotate(10deg)",
+    },
+    zIndex: 1500,
+    userSelect: "none",
+  }}
+  title="Cart"
+>
+  <FontAwesomeIcon icon={faCartShopping} style={{ fontSize: "50px" }} />
+  <Typography variant="caption" sx={{ mt: 0.5, fontWeight: "bold", color: "inherit" }}>
+    My Cart
+  </Typography>
+</Box>
+
 
       {/* زر السهم للأعلى */}
       <IconButton

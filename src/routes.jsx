@@ -8,6 +8,13 @@ import Home from "./pages/home/Home";
 import RePass from './pages/rePass/RePass';
 import ProductDetails from "./pages/productDetails/ProductDetails";
 import Cart from "./pages/carts/Carts";
+import Checkout from "./components/checkout/Checkout";
+import Profile from "./pages/profile/Profile";
+import ProductsByCategory from './pages/productsByCategory/ProductsByCategory';
+import Product from "./components/products/Product";
+import ContactUs from "./pages/contactUs/ContactUs";
+import AboutUs from "./pages/aboutUs/AboutUs";
+import PaymentSuccess from "./pages/paymentSuccess/PaymentSuccess";
 
 
 
@@ -20,6 +27,27 @@ const routers = createBrowserRouter([
         {
             path:'/',
             element:<Home/>
+        },
+        {
+            path:'/About Us',
+            element:<AboutUs/>
+
+        },
+        {
+            path:'/Contact Us',
+            element:<ContactUs/>
+
+        }
+        ,{
+            path:'/Home',
+            element:<Home/>
+        },{
+path:'/payment-success',
+element:<PaymentSuccess/>
+        },
+        {
+           path:'/Products',
+           element:<Product/>
         },
         
         {
@@ -43,7 +71,16 @@ const routers = createBrowserRouter([
         },{
             path:'/carts',
             element:<Cart/>
-        }
+        },{
+            path:'/checkout',
+            element:<Checkout/>
+        },{
+            path:'/profile',
+            element:<Profile/>
+        },{
+  path: '/category/:id',
+  element: <ProductsByCategory />
+}
 
     ],
 }

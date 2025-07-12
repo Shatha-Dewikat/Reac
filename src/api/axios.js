@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 
 // إضافة التوكن تلقائيًا من localStorage لكل طلب
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("userToken");
+const token = sessionStorage.getItem("userToken");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

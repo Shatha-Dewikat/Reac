@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Grid, Typography, Tooltip } from "@mui/material";
 import axiosInstance from "../../api/axios";
+import { useNavigate } from "react-router-dom"; // ⬅️ مهم
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTshirt,
@@ -14,6 +15,7 @@ import {
 
 export default function Category() {
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate(); // ⬅️
 
   const getCategories = async () => {
     try {
@@ -28,7 +30,6 @@ export default function Category() {
     getCategories();
   }, []);
 
-  // دالة ترجع أيقونة حسب اسم التصنيف
   const getCategoryIcon = (name) => {
     const lowered = name.toLowerCase();
     if (lowered.includes("clothing") || lowered.includes("clothes"))
@@ -50,6 +51,7 @@ export default function Category() {
         <Grid item xs={6} sm={4} md={3} key={category.id}>
           <Tooltip title={category.name}>
             <Box
+              onClick={() => navigate(`/category/${category.id}`)} // ⬅️
               sx={{
                 borderRadius: 4,
                 py: 4,
@@ -70,7 +72,6 @@ export default function Category() {
                 icon={getCategoryIcon(category.name)}
                 style={{ fontSize: 40, color: "#ffb3d1", marginBottom: 12 }}
               />
-
               <Typography
                 variant="subtitle1"
                 sx={{
